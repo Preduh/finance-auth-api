@@ -4,8 +4,9 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
-const authConfig = require('../config/auth.json')
 const authMiddleware = require('../middlewares/auth')
+
+const secret = process.env.SECRET
 
 router.post('/register', async (req, res) => {
     try {
@@ -16,7 +17,7 @@ router.post('/register', async (req, res) => {
             const user = await User.create(req.body)
             user.password = undefined
 
-            const token = jwt.sign({ user: user.id }, authConfig.secret, { expiresIn: 86400 })
+            const token = jwt.sign({ user: user.id }, secret, { expiresIn: 86400 })
 
             return res.send({ user, token })
         }
@@ -44,7 +45,7 @@ router.get('/login', async (req, res) => {
             return res.send({ Error: 'Invalid password' })
         }
 
-        const token = jwt.sign({ user: user.id }, authConfig.secret, { expiresIn: 86400 })
+        const token = jwt.sign({ user: user.id }, secret, { expiresIn: 86400 })
 
         user.password = undefined
 

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
-const authConfig = require('../config/auth.json')
 const User = require('../models/user')
+
+const secret = process.env.SECRET
 
 module.exports = (req, res, next) => {
     const authHeader = req.headers.authorization
@@ -19,7 +20,7 @@ module.exports = (req, res, next) => {
         return res.send({ Error: 'Invalid scheme' })
     }
 
-    jwt.verify(token, authConfig.secret, async (err, decoded) => {
+    jwt.verify(token, secret, async (err, decoded) => {
         if (err) {
             res.send({ Error: 'Invalid token' })
         } else {
