@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // Routes
 require('./controllers/authController')(app)
+require('./controllers/transactionController')(app)
 
 app.listen(process.env.PORT || 8081, () => {
     console.log('Server is online')

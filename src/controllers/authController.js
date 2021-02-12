@@ -59,4 +59,4 @@ router.get('/me', authMiddleware, async (req, res) => {
     res.send(req.auth)
 })
 
-module.exports = app => app.use(router)
+module.exports = app => app.use('/auth', router)
