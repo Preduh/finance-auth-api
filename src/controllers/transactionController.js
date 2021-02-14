@@ -2,6 +2,13 @@ const express = require('express')
 const router = express.Router()
 const Transaction = require('../models/transaction')
 
+/*
+[x] Listar transações do usuário
+[] Exibir as transações baseado no id do usuário após logado
+[] Criar local para registro de novas transações, e as transações devem ser acrescentadas em tempo real
+[] Criar botão para a exclusão da transação selecionada
+*/
+
 router.post('/create', async (req, res) => {
     try {
         const now = new Date
@@ -49,6 +56,14 @@ router.post('/create', async (req, res) => {
     } catch (err) {
         console.log(err)
     }
+})
+
+router.get('/list', async (req, res) => {
+    const { userId } = req.body
+
+    const transactions = await Transaction.findOne({ userId })
+
+    return res.send(transactions)
 })
 
 module.exports = app => app.use('/transaction', router)
