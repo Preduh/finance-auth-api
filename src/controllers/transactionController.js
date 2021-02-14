@@ -15,8 +15,8 @@ router.post('/create', async (req, res) => {
         let day = 0
         let month = 0
 
-        now.getUTCDate() < 10 ? day = '0'+now.getUTCDate() : day = now.getUTCDate()
-        now.getUTCMonth() < 10 ? month = '0'+(now.getUTCMonth()+1) : month = now.getUTCMonth()
+        now.getUTCDate() < 10 ? day = '0' + now.getUTCDate() : day = now.getUTCDate()
+        now.getUTCMonth() < 10 ? month = '0' + (now.getUTCMonth() + 1) : month = now.getUTCMonth()
 
         const date = `${day}/${month}/${now.getUTCFullYear()}`
 
@@ -38,9 +38,9 @@ router.post('/create', async (req, res) => {
             await Transaction.findOneAndUpdate({ userId }, {
                 transaction: transaction.transaction
             }
-        )
+            )
 
-        res.send(transaction)
+            res.send(transaction)
         } else {
             const transaction = await Transaction.create({
                 userId: req.body.userId,
@@ -59,11 +59,15 @@ router.post('/create', async (req, res) => {
 })
 
 router.get('/list', async (req, res) => {
-    const { userId } = req.body
+    try {
+        const { userId } = req.body
 
-    const transactions = await Transaction.findOne({ userId })
+        const transactions = await Transaction.findOne({ userId })
 
-    return res.send(transactions.transaction)
+        return res.send(transactions.transaction)
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 module.exports = app => app.use('/transaction', router)
