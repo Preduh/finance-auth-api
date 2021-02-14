@@ -63,7 +63,7 @@ router.get('/list', async (req, res) => {
 
     const transactions = await Transaction.findOne({ userId })
 
-    return res.send(transactions)
+    return res.send(transactions.transaction)
 })
 
 module.exports = app => app.use('/transaction', router)
