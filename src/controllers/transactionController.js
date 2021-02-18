@@ -54,19 +54,19 @@ router.post('/create', async (req, res) => {
             return res.send(transaction)
         }
     } catch (err) {
-        console.log(err)
+        return res.send(err)
     }
 })
 
-router.get('/list', async (req, res) => {
+router.post('/list', async (req, res) => {
     try {
         const { userId } = req.body
 
-        const transactions = await Transaction.findOne({ userId })
+        const transaction = await Transaction.findOne({ userId })
 
-        return res.send(transactions.transaction)
+        return res.send(transaction.transaction)
     } catch (err) {
-        console.log(err)
+        return res.send({Error: 'Invalid userId'})
     }
 })
 
